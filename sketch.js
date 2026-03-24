@@ -6,7 +6,7 @@ let sliderB;
 let scale = 20;
 
 function setup() {
-  let canvas = createCanvas(1000, 600);
+  let canvas = createCanvas(windowWidth,windowHeight);
   canvas.parent("sketch-holder");
 
   sliderM = createSlider(-10, 10, 1, 0.1);
