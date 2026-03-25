@@ -3,35 +3,30 @@ let b = 0;
 
 let sliderM;
 let sliderB;
-
 let scale = 20;
-let uiLeft = 30;
-let uiTop = 30;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  textFont('Arial');
+
+  sliderM = createSlider(-10, 10, 1, 0.1);
+  sliderM.position(20, 20);
+  sliderM.style('width', '300px');
+  sliderM.style('height', '40px');
+
+  sliderB = createSlider(-20, 20, 0, 0.5);
+  sliderB.position(20, 70);
+  sliderB.style('width', '300px');
+  sliderB.style('height', '40px');
+
+  sliderM.style('cursor', 'pointer');
+  sliderB.style('cursor', 'pointer');
+
+  sliderM.style('background', '#ddd');
+  sliderB.style('background', '#ddd');
 }
 
 function draw() {
   background(255);
-
-  // create sliders once, after canvas exists
-  if (!sliderM) {
-    sliderM = createSlider(-10, 10, 1, 0.1);
-    sliderM.position(uiLeft, uiTop);
-    sliderM.style('width', '300px');
-    sliderM.style('height', '40px');
-    sliderM.style('cursor', 'pointer');
-    sliderM.style('background', '#ddd');
-
-    sliderB = createSlider(-20, 20, 0, 0.5);
-    sliderB.position(uiLeft, uiTop + 50);
-    sliderB.style('width', '300px');
-    sliderB.style('height', '40px');
-    sliderB.style('cursor', 'pointer');
-    sliderB.style('background', '#ddd');
-  }
 
   m = sliderM.value();
   b = sliderB.value();
@@ -42,15 +37,34 @@ function draw() {
   drawLine();
 
   resetMatrix();
-  drawUI();
+
+  noStroke();
+  fill(0);
+  textSize(18);
+  text("Slope (m): " + m, 20, 130);
+  text("Intercept (b): " + b, 20, 155);
 }
 
 function drawAxes() {
   stroke(200);
   strokeWeight(1);
 
+  // X-axis
   line(-width / 2, 0, width / 2, 0);
+
+  // Y-axis
   line(0, -height / 2, 0, height / 2);
+
+  // Labels
+  noStroke();
+  fill(100);
+  textSize(16);
+
+  // X-axis label (right side)
+  text("x-axis", width / 2 - 60, -10);
+
+  // Y-axis label (top)
+  text("y-axis", 10, -height / 2 + 20);
 }
 
 function drawLine() {
@@ -70,26 +84,4 @@ function drawLine() {
   let y2 = -graphY2 * scale;
 
   line(x1, y1, x2, y2);
-}
-
-function drawUI() {
-  noStroke();
-  fill(0);
-  textSize(18);
-  text("Slope (m): " + m, uiLeft, uiTop + 120);
-  text("Intercept (b): " + b, uiLeft, uiTop + 145);
-
-  fill(120);
-  textSize(16);
-  text("x-axis", width - 80, height / 2 - 10);
-  text("y-axis", width / 2 + 10, 25);
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-
-  if (sliderM && sliderB) {
-    sliderM.position(uiLeft, uiTop);
-    sliderB.position(uiLeft, uiTop + 50);
-  }
 }
